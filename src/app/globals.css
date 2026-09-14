@@ -1,0 +1,587 @@
+@import "tailwindcss";
+
+/* ============================================================
+   LOGOSA — DESIGN SYSTEM
+   Derived directly from the finalised logo:
+   Didone wordmark + letterspaced grotesque subline,
+   golden sun, copper pagoda, navy Himalaya, teal water,
+   ghost ranges, warm paper ground.
+   ============================================================ */
+
+@theme {
+  /* ---- Core palette (from the logo) ---- */
+  --color-ink: #003047; /* Deep Himalayan Blue — primary ink */
+  --color-ink-deep: #00212f; /* Night sky / dark surfaces */
+  --color-ink-soft: #1d4a63; /* Secondary text on paper */
+  --color-ink-faint: #5b7d90; /* Tertiary / captions */
+
+  --color-gold: #fdb614; /* Golden Yellow — accent ONLY */
+  --color-gold-deep: #e39a06; /* Gold for text on paper (contrast-safe) */
+
+  --color-paper: #f7f4ec; /* Warm Paper — primary surface */
+  --color-paper-2: #efeade; /* Banded surface */
+  --color-paper-3: #e5dfd0; /* Deepest paper / inset */
+
+  /* ---- Supporting earth palette (restrained) ---- */
+  --color-haze: #a9c0d4; /* Ghost mountain ranges */
+  --color-glacier: #cfdeea; /* Snow shadow */
+  --color-water: #2e8ba6; /* The lake in the logo */
+  --color-water-deep: #1b6478;
+  --color-pine: #2f5d50; /* Forest / Terai canopy */
+  --color-terracotta: #b4542a; /* Pagoda roof copper */
+  --color-stone: #8a8578; /* Neutral stone */
+  --color-clay: #c98a5b; /* Warm mid-tone */
+
+  /* ---- Hairlines ---- */
+  --color-rule: color-mix(in srgb, #003047 16%, transparent);
+  --color-rule-soft: color-mix(in srgb, #003047 6%, transparent);
+  --color-rule-invert: color-mix(in srgb, #f7f4ec 20%, transparent);
+
+  /* ---- Type families (wired to next/font in layout.tsx) ---- */
+  --font-display: var(--font-bodoni), "Bodoni MT", "Didot", Georgia, serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-read: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-deva: var(--font-tiro), "Noto Serif Devanagari", serif;
+
+  /* ---- Editorial type scale (fluid) ---- */
+  --text-label: 0.6875rem; /* 11px — the logo's subline register */
+  --text-micro: 0.75rem;
+  --text-small: 0.8125rem;
+  --text-body: 1rem;
+  --text-body-lg: clamp(1.0625rem, 0.55vw + 0.92rem, 1.1875rem);
+  --text-lead: clamp(1.1875rem, 0.9vw + 1rem, 1.4375rem);
+  --text-title: clamp(1.3125rem, 0.9vw + 1.12rem, 1.75rem);
+  --text-display-s: clamp(1.75rem, 1.9vw + 1.28rem, 2.5rem);
+  --text-display-m: clamp(2.25rem, 3.4vw + 1.4rem, 3.75rem);
+  --text-display-l: clamp(2.75rem, 5.2vw + 1.45rem, 5.5rem);
+  --text-display-xl: clamp(3.5rem, 10vw + 0.5rem, 10rem);
+
+  /* ---- Rhythm ---- */
+  --spacing-gutter: clamp(1.25rem, 4vw, 4rem);
+  --spacing-chapter: clamp(5rem, 11vh, 9rem);
+
+  /* ---- Motion ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out-soft: cubic-bezier(0.33, 1, 0.68, 1);
+
+  /* ---- Structure ---- */
+  --radius-*: initial; /* Nothing is rounded. This is print. */
+  --radius-none: 0;
+  --shadow-*: initial; /* No drop shadows. Depth comes from ink and paper. */
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-radius: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto; /* Lenis owns scrolling */
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    /* A Didone at 400 goes to hairlines at display size and reads grey.
+       500 keeps the high contrast while holding its colour on the page. */
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  /* Focus: a solid ink bracket, never a browser glow */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  .on-ink :focus-visible,
+  .on-ink :focus-visible * {
+    outline-color: var(--color-gold);
+  }
+
+  /* Forms inherit the print language */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+    border-radius: 0;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+  }
+}
+
+/* ============================================================
+   SURFACES
+   ============================================================ */
+
+.on-ink {
+  background-color: var(--color-ink-deep);
+  color: var(--color-paper);
+  --color-rule: var(--color-rule-invert);
+}
+
+.on-ink h1,
+.on-ink h2,
+.on-ink h3 {
+  color: var(--color-paper);
+}
+
+/* Warm paper grain — a single fixed layer, never animated */
+.paper-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.on-ink.paper-grain::after {
+  mix-blend-mode: screen;
+  opacity: 0.05;
+}
+
+/* ============================================================
+   EDITORIAL GRID
+   The visible structure. Hairlines, not cards.
+   ============================================================ */
+
+.shell {
+  width: 100%;
+  max-width: 1680px;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+.shell-narrow {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+.grid-editorial {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2.2vw, 2.25rem);
+}
+
+@media (max-width: 900px) {
+  .grid-editorial {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* Column rules — the printed-page armature */
+.rule-t {
+  border-top: 1px solid var(--color-rule);
+}
+.rule-b {
+  border-bottom: 1px solid var(--color-rule);
+}
+.rule-l {
+  border-left: 1px solid var(--color-rule);
+}
+.rule-soft-t {
+  border-top: 1px solid var(--color-rule-soft);
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+
+/* The logo's subline, systematised */
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.label-slim {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--color-ink-faint);
+}
+
+/* Chapter numerals — set as data, like a printed atlas */
+.numeral {
+  font-family: var(--font-display);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.deva {
+  font-family: var(--font-deva);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.read {
+  font-family: var(--font-read);
+  font-size: var(--text-body-lg);
+  line-height: 1.72;
+  letter-spacing: 0.001em;
+}
+
+/* Long-form article body */
+.prose-logosa {
+  font-family: var(--font-read);
+  font-size: var(--text-body-lg);
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+}
+.prose-logosa > * + * {
+  margin-top: 1.35em;
+}
+.prose-logosa h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-display-s);
+  color: var(--color-ink);
+  margin-top: 2.4em;
+  line-height: 1.1;
+}
+.prose-logosa h3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-title);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin-top: 2em;
+}
+.prose-logosa strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.prose-logosa a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: var(--color-gold);
+}
+.prose-logosa a:hover {
+  background: var(--color-gold);
+}
+.prose-logosa ul,
+.prose-logosa ol {
+  padding-left: 1.1em;
+}
+.prose-logosa li + li {
+  margin-top: 0.5em;
+}
+.prose-logosa ul > li {
+  list-style: none;
+  position: relative;
+}
+.prose-logosa ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.1em;
+  top: 0.66em;
+  width: 0.4em;
+  height: 0.4em;
+  background: var(--color-gold);
+  transform: rotate(45deg);
+}
+.prose-logosa ol > li::marker {
+  font-family: var(--font-sans);
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--color-ink-faint);
+}
+.prose-logosa blockquote {
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1.25em;
+  font-style: italic;
+  color: var(--color-ink);
+}
+
+/* Drop-cap for opening paragraphs of long-form pieces */
+.dropcap::first-letter {
+  font-family: var(--font-display);
+  float: left;
+  font-size: 3.9em;
+  line-height: 0.78;
+  padding-right: 0.09em;
+  padding-top: 0.04em;
+  color: var(--color-ink);
+}
+
+/* ============================================================
+   CONTROLS
+   Rectangles with ink. No pills, no gradients, no shadows.
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 1.05rem 1.75rem;
+  border: 1px solid var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  transition: background 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo),
+    border-color 0.4s var(--ease-out-expo);
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+}
+.btn-ghost:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.on-ink .btn {
+  background: var(--color-paper);
+  border-color: var(--color-paper);
+  color: var(--color-ink);
+}
+.on-ink .btn:hover {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+.on-ink .btn-ghost {
+  background: transparent;
+  color: var(--color-paper);
+  border-color: color-mix(in srgb, #f7f4ec 40%, transparent);
+}
+.on-ink .btn-ghost:hover {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  border-color: var(--color-paper);
+}
+
+/* Text link with a gold rule that draws in */
+.link-rule {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.15em;
+}
+.link-rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.28;
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out-expo), opacity 0.4s;
+}
+.link-rule:hover::after {
+  background: var(--color-gold);
+  opacity: 1;
+  transform: scaleY(2);
+}
+
+/* Field inputs — a baseline to write on */
+.field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-rule);
+  padding: 0.7rem 0 0.6rem;
+  font-size: var(--text-body);
+  color: var(--color-ink);
+  transition: border-color 0.35s var(--ease-out-expo);
+}
+.field::placeholder {
+  color: color-mix(in srgb, #003047 32%, transparent);
+}
+.field:focus {
+  outline: none;
+  border-bottom-color: var(--color-gold);
+  border-bottom-width: 2px;
+  padding-bottom: calc(0.6rem - 1px);
+}
+.field:focus-visible {
+  outline: none;
+}
+.field-invalid {
+  border-bottom-color: var(--color-terracotta);
+}
+
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' fill='none' stroke='%23003047' stroke-width='1.3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.1rem center;
+  padding-right: 1.5rem;
+  cursor: pointer;
+}
+
+/* ============================================================
+   IMAGE TREATMENT
+   Photography is design material: framed, never floating.
+   ============================================================ */
+
+.figure-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-paper-3);
+}
+
+.figure-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Ink wash over photography, so images sit in the palette */
+.wash-ink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, #00212f 62%, transparent),
+    color-mix(in srgb, #00212f 12%, transparent) 45%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+/* ============================================================
+   MOTION
+   ============================================================ */
+
+.will-reveal {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .will-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Hide scrollbar on horizontal editorial rails, keep keyboard scroll */
+.rail {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   MAPBOX OVERRIDES — strip the default product chrome
+   ============================================================ */
+
+.mapboxgl-map {
+  font-family: var(--font-sans) !important;
+}
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib-button {
+  opacity: 0.5;
+}
+.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib {
+  background: color-mix(in srgb, #f7f4ec 78%, transparent) !important;
+  font-size: 10px !important;
+  border-radius: 0 !important;
+}
+.mapboxgl-canvas:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: -2px;
+}
+
+/* Screen-reader only */
+.sr-only:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
