@@ -144,8 +144,8 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/everest-khumbu.svg",
-    imageAlt: "The Khumbu glacier moraine below Everest, with the summit pyramid clear of Nuptse",
+    image: "/images/destinations/khumbu-icefall.webp",
+    imageAlt: "The Khumbu icefall and glacier moraine below Everest, prayer flags strung along the camp",
   },
 
   {
@@ -187,8 +187,8 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/annapurna.svg",
-    imageAlt: "The Annapurna Sanctuary, a glacial basin ringed by snow peaks on every side",
+    image: "/images/destinations/annapurna.webp",
+    imageAlt: "Trekkers walking into the Annapurna Sanctuary, a glacial basin ringed by snow peaks",
   },
 
   {
@@ -235,7 +235,7 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/upper-mustang.svg",
+    image: "/images/destinations/upper-mustang.webp",
     imageAlt: "The arid Kali Gandaki valley north of Thorong La, with eroded cliffs above the riverbed",
   },
 
@@ -272,8 +272,8 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/pokhara.svg",
-    imageAlt: "Dawn from the Poon Hill ridge with the Annapurna and Dhaulagiri ranges in low sun",
+    image: "/images/destinations/poon-hill.webp",
+    imageAlt: "Dhaulagiri above the Poon Hill ridge, seen over flowering rhododendron in spring",
   },
 
   {
@@ -313,8 +313,8 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/langtang.svg",
-    imageAlt: "The upper Langtang valley with glaciated peaks above stone-walled yak pasture",
+    image: "/images/destinations/langtang.webp",
+    imageAlt: "The upper Langtang valley with glaciated peaks above a prayer-flagged suspension bridge",
   },
 
   {
@@ -362,8 +362,8 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/upper-mustang.svg",
-    imageAlt: "The walled city of Lo Manthang on the high plateau, whitewashed walls against ochre cliffs",
+    image: "/images/destinations/upper-mustang.webp",
+    imageAlt: "A Mustang settlement on the high plateau, whitewashed walls and chortens against ochre cliffs",
   },
 
   {
@@ -396,8 +396,8 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/kathmandu-valley.svg",
-    imageAlt: "Carved wooden struts and tiered roofs of a Newar temple in a Kathmandu durbar square",
+    image: "/images/destinations/patan.webp",
+    imageAlt: "The stone shikhara of Krishna Mandir and tiered temple roofs in Patan Durbar Square",
   },
 
   {
@@ -429,7 +429,7 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/chitwan.svg",
+    image: "/images/destinations/chitwan.webp",
     imageAlt: "Morning mist over elephant grass and river channels in Chitwan National Park",
   },
 
@@ -462,7 +462,7 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/lumbini.svg",
+    image: "/images/destinations/lumbini.webp",
     imageAlt: "The Maya Devi Temple at Lumbini reflected in the sacred pond in early light",
   },
 
@@ -500,8 +500,8 @@ export const journeys: Journey[] = [
     price: null,
     included: [],
     excluded: [],
-    image: "/images/destinations/kathmandu-valley.svg",
-    imageAlt: "Tiered temple roofs above a Kathmandu square with the valley rim beyond",
+    image: "/images/destinations/bhaktapur.webp",
+    imageAlt: "The tiered roofs of Nyatapola above Bhaktapur Durbar Square with the valley rim beyond",
   },
 ];
 

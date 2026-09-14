@@ -12,17 +12,25 @@ cropping and alt text already exist.
 
 | Placeholder | Replace with | Subject the photograph should show |
 | --- | --- | --- |
-| `/images/destinations/kathmandu-valley.svg` | `kathmandu-valley.webp` | Tiered Newar pagoda temples rising above the rooftops of the Kathmandu valley, with hills beyond |
-| `/images/destinations/pokhara.svg` | `pokhara.webp` | The Annapurna range reflected in the still surface of Phewa Lake at Pokhara in early morning light |
-| `/images/destinations/everest-khumbu.svg` | `everest-khumbu.webp` | The Everest massif above the Khumbu valley, with prayer flags on a ridge in the foreground |
-| `/images/destinations/annapurna.svg` | `annapurna.webp` | The Annapurna massif seen across terraced foothills, snow faces lit by low morning sun |
-| `/images/destinations/upper-mustang.svg` | `upper-mustang.webp` | Eroded ochre cliffs and a whitewashed Tibetan settlement on the high desert plateau of Upper Mustang |
-| `/images/destinations/langtang.svg` | `langtang.webp` | The Langtang valley with glaciated peaks at its head and stone-walled fields on the valley floor |
-| `/images/destinations/chitwan.svg` | `chitwan.webp` | Elephant grass and sal forest on the Chitwan floodplain with river channels catching the light |
-| `/images/destinations/lumbini.svg` | `lumbini.webp` | The Maya Devi Temple and Ashokan pillar at Lumbini, reflected in the sacred pond at dawn |
 | `/images/stories/walk-high-sleep-low.svg` | `walk-high-sleep-low.webp` | A trekker on the moraine below Lobuche with the Khumbu glacier and peaks beyond |
 | `/images/stories/kali-gandaki.svg` | `kali-gandaki.webp` | The Kali Gandaki riverbed running between eroded cliffs beneath high snow peaks |
 | `/images/stories/newar-window.svg` | `newar-window.webp` | A carved wooden lattice window in a Newar courtyard, deep-set in a brick facade |
+
+## Already replaced
+
+These carry real photography and are no longer generated. Re-pointing the data
+file back at an `.svg` path brings the plate back on the next run.
+
+| File | Subject |
+| --- | --- |
+| `/images/destinations/kathmandu-valley.webp` | The gilded spire and painted eyes of Swayambhunath stupa above the valley, strung with prayer flags |
+| `/images/destinations/pokhara.webp` | Painted wooden boats moored on the still water of Phewa Lake at Pokhara, hills rising behind |
+| `/images/destinations/everest-khumbu.webp` | The Everest massif seen from the air, the summit pyramid standing clear above Nuptse and the Khumbu valley |
+| `/images/destinations/annapurna.webp` | A line of trekkers on the snow approach to Annapurna Base Camp, snow faces of the sanctuary rising ahead |
+| `/images/destinations/upper-mustang.webp` | Chortens and whitewashed walls beneath fluted ochre cliffs in Upper Mustang, snow peaks behind |
+| `/images/destinations/langtang.webp` | A walker crossing a prayer-flagged suspension bridge in the Langtang valley, glaciated peaks at its head |
+| `/images/destinations/chitwan.webp` | An elephant crossing a river channel through mist on the Chitwan floodplain, grassland on both banks |
+| `/images/destinations/lumbini.webp` | The Maya Devi Temple and Ashokan pillar at Lumbini, reflected in the sacred pond at dawn |
 
 ## Specification for real photography
 

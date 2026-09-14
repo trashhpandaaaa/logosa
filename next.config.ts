@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Destination and story plates are currently generated SVG (see
-    // public/images/PLACEHOLDERS.md). Next refuses to optimise SVG by default
+    // Destinations carry photography now; story plates are still generated SVG
+    // (see public/images/PLACEHOLDERS.md). Next refuses to optimise SVG by default
     // because a hostile SVG can carry script — these are all first-party files
     // under /public, and the CSP below neutralises scripting regardless.
     dangerouslyAllowSVG: true,

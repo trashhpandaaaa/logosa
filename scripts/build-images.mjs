@@ -29,8 +29,15 @@ mkdirSync(destDir, { recursive: true });
 mkdirSync(storyDir, { recursive: true });
 
 const rows = [];
+const replaced = [];
 
 for (const d of destinations) {
+  // A destination pointing at anything but an SVG has a real photograph now.
+  // Don't draw a plate it will never use, and don't list it as outstanding.
+  if (!d.image.endsWith(".svg")) {
+    replaced.push({ path: d.image, subject: d.imageAlt });
+    continue;
+  }
   const kind = sceneKindFor[d.terrain];
   const scene = buildScene({
     kind,
@@ -98,7 +105,20 @@ cropping and alt text already exist.
 | Placeholder | Replace with | Subject the photograph should show |
 | --- | --- | --- |
 ${rows.map((r) => `| \`${r.path}\` | \`${r.replaceWith}\` | ${r.subject} |`).join("\n")}
+${
+  replaced.length
+    ? `
+## Already replaced
 
+These carry real photography and are no longer generated. Re-pointing the data
+file back at an \`.svg\` path brings the plate back on the next run.
+
+| File | Subject |
+| --- | --- |
+${replaced.map((r) => `| \`${r.path}\` | ${r.subject} |`).join("\n")}
+`
+    : ""
+}
 ## Specification for real photography
 
 - **Format** — WebP or AVIF, sRGB. Supply the original alongside.
