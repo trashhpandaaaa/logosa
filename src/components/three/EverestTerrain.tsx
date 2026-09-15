@@ -16,25 +16,52 @@ import { heroChannel } from "@/lib/animations/scrollState";
  */
 
 /**
- * Camera path. Positions and targets are in the model's own world space, which
- * spans roughly x ±3.2, y 0.5–1.35, z ±1.9 once the glTF node transform is
- * applied. The move descends from a survey altitude to a raking pass along the
- * ridge — the same movement the site's whole narrative makes, from map to ground.
+ * Camera path. Positions and targets are in the model's own world space: the
+ * tile spans x ±3.2, z −2.0 to +1.8 and, stretched and dropped onto the origin
+ * plane below, rises to about 2.31. The path stays above that ceiling
+ * throughout, so the camera never drops through the surface.
+ *
+ * The move descends from a survey altitude to a raking pass along the ridge —
+ * the same movement the site's whole narrative makes, from map to ground.
  */
 const KEYS: { at: number; pos: [number, number, number]; look: [number, number, number] }[] = [
-  // The tile spans x ±3.2, z ±1.9 and rises to about 1.9 with the base on the
-  // origin plane. The path stays above that ceiling throughout, so the camera
-  // never drops through the surface or sees the tile's cut edge.
+  // THE OPENING FRAME is the one key that is composed rather than flown, and
+  // it is composed to a drawing: this is where the logo puts its range, and
+  // the whole page is built on the two being the same shape.
   //
-  // The pitch stays shallow throughout. Looking steeply down fills the frame
-  // corner to corner and leaves the typography nowhere to sit; held near level,
-  // the range reads as a band across the page with margin above and below —
-  // which is how a landscape plate is set in print.
-  { at: 0.0, pos: [0.1, 3.2, 8.6], look: [0, 2.15, 0] },
-  { at: 0.34, pos: [-1.7, 2.95, 4.6], look: [0, 2.1, -0.1] },
-  { at: 0.68, pos: [-1.35, 2.75, 2.8], look: [0.1, 2.05, -0.5] },
-  { at: 1.0, pos: [0.8, 2.6, 1.2], look: [-1.15, 1.95, -1.6] },
+  //   · the camera is held level, so the horizon lands on the frame's centre
+  //     line and everything below it is ground. Any downward pitch and the
+  //     mountain climbs the page and swallows the headline.
+  //   · it stands about half a unit above the summit, which drops the ridge
+  //     to roughly two thirds down the frame — the horizon the sun in
+  //     `DrawnSky` is drawn against.
+  //   · it stands close enough that the tile, 6.4 wide, still spans the frame
+  //     at the depth the ridge sits. Pulled back for a wider view, the range
+  //     stops short of the bottom corners and paper wedges in under it.
+  //
+  // Changing any of the three moves the ridge off the sun. They are one
+  // decision, not three.
+  { at: 0.0, pos: [0.15, 2.83, 4.6], look: [0.05, 2.82, -0.4] },
+  // From here the pitch tips down and the camera closes in. Kept shallow:
+  // looking steeply down fills the frame corner to corner and leaves the
+  // typography nowhere to sit, where a raking angle reads as a landscape
+  // plate — which is how this is set in print.
+  { at: 0.34, pos: [-1.5, 2.8, 3.4] , look: [0, 2.4, -0.3] },
+  { at: 0.68, pos: [-1.35, 2.75, 2.2], look: [0.1, 2.25, -0.7] },
+  { at: 1.0, pos: [0.8, 2.65, 1.0], look: [-1.15, 2.05, -1.7] },
 ];
+
+/** Seconds the mountain takes to resolve out of the paper once the glTF lands. */
+const INTRO = 0.9;
+
+/**
+ * A note for anyone tempted to widen the opening on a phone: pulling the
+ * camera back does crop less of the range in, but it also lifts the ridge
+ * toward the horizon, and the sun in `DrawnSky` is a flat plate pinned to the
+ * bottom of the frame — it does not follow. The disc ends up sitting under the
+ * mountain instead of behind it. The two are composed together; move one and
+ * the other has to move into the scene with it.
+ */
 
 /**
  * Vertical exaggeration. The source tile is a 6.4 × 3.8 footprint with only
@@ -60,7 +87,14 @@ function sampleAt(p: number, key: "pos" | "look", out: THREE.Vector3) {
   );
 }
 
-export default function EverestTerrain({ low = false }: { low?: boolean }) {
+export default function EverestTerrain({
+  low = false,
+  /** Under reduced motion the canvas renders on demand, so nothing may tick. */
+  still = false,
+}: {
+  low?: boolean;
+  still?: boolean;
+}) {
   const { scene } = useGLTF(low ? "/models/everest-low.glb" : "/models/everest.glb", false);
   const camera = useThree((s) => s.camera);
   const ch = heroChannel();
@@ -70,6 +104,7 @@ export default function EverestTerrain({ low = false }: { low?: boolean }) {
   const current = useRef(new THREE.Vector3());
   const currentLook = useRef(new THREE.Vector3());
   const started = useRef(false);
+  const intro = useRef(still ? 1 : 0);
 
   /** Swap in the graded material and measure the mesh for the elevation ramp. */
   const { root, materials } = useMemo(() => {
@@ -101,6 +136,9 @@ export default function EverestTerrain({ low = false }: { low?: boolean }) {
         const mat = createTerrainMaterial(map);
         mat.uniforms.uMinY.value = box.min.y;
         mat.uniforms.uMaxY.value = box.max.y;
+        // Starts dissolved, and the intro ramp below brings it in. Under
+        // reduced motion there is no ramp, so it arrives already present.
+        mat.uniforms.uReveal.value = still ? 1 : 0;
         o.material = mat;
         materials.push(mat);
       } else {
@@ -113,7 +151,7 @@ export default function EverestTerrain({ low = false }: { low?: boolean }) {
     });
 
     return { root, materials };
-  }, [scene]);
+  }, [scene, still]);
 
   useEffect(() => {
     return () => {
@@ -143,9 +181,15 @@ export default function EverestTerrain({ low = false }: { low?: boolean }) {
     camera.position.copy(current.current);
     camera.lookAt(currentLook.current);
 
-    // The mountain resolves out of the paper across the first third.
-    const reveal = THREE.MathUtils.smoothstep(p, 0.02, 0.3);
-    for (const m of materials) m.uniforms.uReveal.value = reveal;
+    // The mountain resolves out of the paper — once, on arrival, rather than
+    // on scroll. It is the opening image now, so it cannot wait for a gesture;
+    // but a tile of satellite terrain snapping into an empty page is a jump
+    // cut, and the dissolve is what makes it look drawn onto the paper.
+    if (intro.current < 1) {
+      intro.current = Math.min(1, intro.current + delta / INTRO);
+      const t = intro.current;
+      for (const m of materials) m.uniforms.uReveal.value = t * t * (3 - 2 * t);
+    }
   });
 
   return <primitive object={root} />;
